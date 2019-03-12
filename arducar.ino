@@ -1,9 +1,15 @@
 
 #include "scheduler.h"
+#include "nokia.h"
 
 const byte PIN_LED = 13;
+const byte PIN_N_SCE = 11;
+const byte PIN_N_DC = 10;
+const byte PIN_N_DATA = 9;
+const byte PIN_N_CLK = 8;
+const byte PIN_N_RST = 12;
 
-int flash_led_task(bool first) {
+time_t flash_led_task(bool first) {
 	if (first) {
 		pinMode(PIN_LED, OUTPUT);
 	}
@@ -21,11 +27,32 @@ int flash_led_task(bool first) {
 	return 500;
 }
 
+time_t nokia_task(bool first) {
+	if (first) {
+		NOKIA_init(PIN_N_SCE, PIN_N_DC, PIN_N_CLK, PIN_N_DATA, PIN_N_RST);
+		return 1000;
+	}
+
+	static bool is_white = false;
+
+	if (is_white) {
+		is_white = false;
+		NOKIA_all_white();
+	} else {
+		is_white = true;
+		NOKIA_all_black();
+	}
+
+	return 1000;
+}
+
 void setup() {
-	SCHED_add_task (flash_led_task, "LED_TASK");
+	SCHED_add_task(flash_led_task, "LED_TASK");
+	SCHED_add_task(nokia_task, "NOKIA");
 }
 
 void loop() {
 
 	SCHED_run_sched();
+
 }
