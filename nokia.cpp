@@ -1,14 +1,14 @@
 #include "nokia.h"
 
-#include <Arduino.h>
-
 /*****************************************************************************
  * Constants and types
  ****************************************************************************/
 
 const int SCREEN_WIDTH = 84;
-const int SCREEN_HIGHT = 6;
-const int SCREEN_SIZE = SCREEN_WIDTH * SCREEN_HIGHT;
+const int CHAR_WIDTH = 6;
+const int CHAR_HEIGHT = 8;
+const int SCREEN_HEIGHT = 6;
+const int SCREEN_SIZE = SCREEN_WIDTH * SCREEN_HEIGHT;
 
 /***** BASIC or EXTENDED instruction set *****/
 const byte COMMAND_FUNCTION_SET = 0x20;
@@ -119,7 +119,7 @@ void NOKIA_init(int pin_sce, int pin_dc, int pin_clk, int pin_data, int pin_rst)
 	send_command(COMMAND_DISPLAY_CONTROL | BIT_NORMAL_MODE);
 	//send_command(COMMAND_DISPLAY_CONTROL | BIT_ALL_ON);
 
-	// Clear out the ram
+	// Clear out the ram with checkerboard
 	for (int i = 0; i < SCREEN_SIZE; i+=2) {
 		send_data(0xAA);
 		send_data(0x55);
@@ -141,5 +141,21 @@ void NOKIA_all_black() {
 	// Set all pixels to black
 	for (int i = 0; i < SCREEN_SIZE; ++i) {
 		send_data(0xFF);
+	}
+}
+
+void NOKIA_set_cursor_pos(int x, int y) {
+	if (y < 0 || y > SCREEN_HEIGHT ||
+	    x < 0 || x > SCREEN_WIDTH / CHAR_WIDTH) {
+			return;
+		}
+
+	send_command(COMMAND_SET_X_ADDR | x*CHAR_WIDTH);
+	send_command(COMMAND_SET_Y_ADDR | y);
+}
+
+void NOKIA_put_data(byte* data, int len) {
+	for (int i = 0; i < len; ++i) {
+		send_data(data[i]);
 	}
 }
