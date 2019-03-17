@@ -3,6 +3,10 @@
 
 #include <Arduino.h>
 
+extern const int CHAR_PER_LINE;
+extern const int NUMBER_LINES;
+extern const int CHAR_PER_SCREEN;
+
 // NOTE: needs to be called within the first 30 ms afte power is applied
 void NOKIA_init(int pin_sce, int pin_dc, int pin_clk, int pin_data, int pin_rst);
 

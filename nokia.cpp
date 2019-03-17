@@ -1,14 +1,19 @@
 #include "nokia.h"
 
+#include "font.h"
+
 /*****************************************************************************
  * Constants and types
  ****************************************************************************/
-
 const int SCREEN_WIDTH = 84;
-const int CHAR_WIDTH = 6;
-const int CHAR_HEIGHT = 8;
-const int SCREEN_HEIGHT = 6;
-const int SCREEN_SIZE = SCREEN_WIDTH * SCREEN_HEIGHT;
+const int SCREEN_HEIGHT = 46;
+
+const int CHAR_PER_LINE = SCREEN_WIDTH / CHAR_WIDTH;
+const int NUMBER_LINES = SCREEN_HEIGHT / CHAR_HEIGHT;
+const int CHAR_PER_SCREEN = SCREEN_WIDTH * SCREEN_HEIGHT;
+
+// Used only internally, this is the number of bytes needed to fill an entire screen
+const int BYTES_PER_SCREEN = SCREEN_WIDTH * NUMBER_LINES;
 
 /***** BASIC or EXTENDED instruction set *****/
 const byte COMMAND_FUNCTION_SET = 0x20;
@@ -43,7 +48,6 @@ const byte COMMAND_VOP = 0x80;
 /*****************************************************************************
  * Static variables
  ****************************************************************************/
-//static byte screen[SCREEN_SIZE];
 static int PIN_SCE;  // serial enable
 static int PIN_DC;   // data/command
 static int PIN_CLK;  // clock
@@ -120,7 +124,7 @@ void NOKIA_init(int pin_sce, int pin_dc, int pin_clk, int pin_data, int pin_rst)
 	//send_command(COMMAND_DISPLAY_CONTROL | BIT_ALL_ON);
 
 	// Clear out the ram with checkerboard
-	for (int i = 0; i < SCREEN_SIZE; i+=2) {
+	for (int i = 0; i < BYTES_PER_SCREEN; i+=2) {
 		send_data(0xAA);
 		send_data(0x55);
 	}
@@ -132,21 +136,21 @@ void NOKIA_init(int pin_sce, int pin_dc, int pin_clk, int pin_data, int pin_rst)
 
 void NOKIA_all_white() {
 	// Set all pixels white
-	for (int i = 0; i < SCREEN_SIZE; ++i) {
+	for (int i = 0; i < BYTES_PER_SCREEN; ++i) {
 		send_data(0x00);
 	}
 }
 
 void NOKIA_all_black() {
 	// Set all pixels to black
-	for (int i = 0; i < SCREEN_SIZE; ++i) {
+	for (int i = 0; i < BYTES_PER_SCREEN; ++i) {
 		send_data(0xFF);
 	}
 }
 
 void NOKIA_set_cursor_pos(int x, int y) {
-	if (y < 0 || y > SCREEN_HEIGHT ||
-	    x < 0 || x > SCREEN_WIDTH / CHAR_WIDTH) {
+	if (y < 0 || y > NUMBER_LINES ||
+	    x < 0 || x > CHAR_PER_LINE) {
 			return;
 		}
 

@@ -6,6 +6,9 @@
 // This is a 8x6 font.
 // Typically the bottom and right rows of pixels will be blank.
 
+extern const int CHAR_WIDTH;
+extern const int CHAR_HEIGHT;
+
 struct Font_char_t {
 	byte character[6];
 };
