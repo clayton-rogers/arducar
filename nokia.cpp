@@ -134,6 +134,21 @@ void NOKIA_init(int pin_sce, int pin_dc, int pin_clk, int pin_data, int pin_rst)
 	send_command(COMMAND_SET_Y_ADDR | 0);
 }
 
+void NOKIA_put_char(char c) {
+	const Font_char_t fc = FONT_get_char(c);
+	
+	for (int i = 0; i < CHAR_WIDTH; ++i) {
+		send_data(fc.character[i]);
+	}
+}
+
+void NOKIA_put_string(const char* str) {
+	while (str) {
+		NOKIA_put_char(*str);
+		++str;
+	}
+}
+
 void NOKIA_all_white() {
 	// Set all pixels white
 	for (int i = 0; i < BYTES_PER_SCREEN; ++i) {
