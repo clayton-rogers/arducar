@@ -22,9 +22,15 @@ struct Run_time_t {
 // after will be set to false.
 typedef time_t (*Task_fn_t)(bool first);
 
+struct Task_t {
+	Task_fn_t callback;
+	const char* name;
+	time_t next_run = 0;
+	Run_time_t run_time;
+};
 
-void SCHED_add_task(Task_fn_t function, const char* const task_name);
-void SCHED_run_sched(void);
-Run_time_t SCHED_get_task_run_time(void);
+const Task_t* SCHED_add_task(Task_fn_t function, const char* const task_name);
+void          SCHED_run_sched(void);
+Run_time_t    SCHED_get_task_run_time(void);
 
 #endif

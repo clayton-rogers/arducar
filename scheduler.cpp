@@ -6,13 +6,6 @@
 // Maximum number of threads
 static const int NUM_T = 10;
 
-struct Task_t {
-	Task_fn_t callback;
-	const char* name;
-	time_t next_run = 0;
-	Run_time_t run_time;
-};
-
 /****************************************************************************
  * Static variables
  ****************************************************************************/
@@ -48,13 +41,16 @@ static void wait_or_sleep(time_t milliseconds) {
 /****************************************************************************
  * Exported functions
  ****************************************************************************/
-void SCHED_add_task(Task_fn_t function, const char* const task_name) {
+const Task_t* SCHED_add_task(Task_fn_t function, const char* const task_name) {
+	const Task_t* ret = nullptr;
 	if (current_num_tasks < NUM_T) {
 		tasks[current_num_tasks].callback = function;
 		tasks[current_num_tasks].name = task_name;
-
+		ret = &tasks[current_num_tasks];
 		current_num_tasks++;
 	}
+
+	return ret;
 }
 
 
