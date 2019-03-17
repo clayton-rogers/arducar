@@ -32,25 +32,9 @@ time_t nokia_task(bool first) {
 		NOKIA_init(PIN_N_SCE, PIN_N_DC, PIN_N_CLK, PIN_N_DATA, PIN_N_RST);
 		return 1000;
 	}
-
-	static char a = 0;
-	static int count = 0;
-
-	NOKIA_put_char(a);
-
-	if (a == 127) {
-		a = 0;
-	} else {
-		++a;
-	}
-
-	++count;
-	if (count == CHAR_PER_SCREEN) {
-		count = 0;
-		return 60000;
-	} else {
-		return 25;
-	}
+	
+	NOKIA_put_string("Hello World");
+	return 60000;
 }
 
 void setup() {

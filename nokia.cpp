@@ -143,7 +143,7 @@ void NOKIA_put_char(char c) {
 }
 
 void NOKIA_put_string(const char* str) {
-	while (str) {
+	while (*str) {
 		NOKIA_put_char(*str);
 		++str;
 	}
