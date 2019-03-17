@@ -56,8 +56,8 @@ time_t nokia_task(bool first) {
 }
 
 void setup() {
-	blink_task = SCHED_add_task(flash_led_task, "LED_TASK");
-	SCHED_add_task(nokia_task, "NOKIA");
+	blink_task = SCHED_add_task(flash_led_task);
+	SCHED_add_task(nokia_task);
 }
 
 void loop() {
