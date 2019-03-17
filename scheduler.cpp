@@ -52,7 +52,7 @@ const Task_t* SCHED_add_task(Task_fn_t function) {
 	return ret;
 }
 
-
+// The current task gets saved here to be used when the current run time is queried
 static Task_t* current_task;
 void SCHED_run_sched() {
 	// First init each task
