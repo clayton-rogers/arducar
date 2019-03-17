@@ -10,6 +10,7 @@ struct Task_t {
 	Task_fn_t callback;
 	const char* name;
 	time_t next_run = 0;
+	Run_time_t run_time;
 };
 
 /****************************************************************************
@@ -21,7 +22,7 @@ static byte current_num_tasks = 0;
 /****************************************************************************
  * Static functions
  ****************************************************************************/
-static size_t get_next_task() {
+static Task_t* get_next_task() {
 	size_t next_task = NUM_T;
 	time_t next_time = 0x7FFFFFFF;
 
@@ -36,7 +37,7 @@ static size_t get_next_task() {
 		// error condition, lock up forever
 		delay(100000);
 	}
-	return next_task;
+	return &tasks[next_task];
 }
 
 static void wait_or_sleep(time_t milliseconds) {
@@ -56,6 +57,8 @@ void SCHED_add_task(Task_fn_t function, const char* const task_name) {
 	}
 }
 
+
+static Task_t* current_task;
 void SCHED_run_sched() {
 	// First init each task
 	for (int i = 0; i < current_num_tasks; ++i) {
@@ -64,8 +67,8 @@ void SCHED_run_sched() {
 
 	// Loop forever calling each task
 	while (1) {
-		const size_t current_task = get_next_task();
-		const time_t next_time = tasks[current_task].next_run;
+		current_task = get_next_task();
+		const time_t next_time = current_task->next_run;
 
 		const time_t current_time = millis();
 
@@ -74,7 +77,28 @@ void SCHED_run_sched() {
 			wait_or_sleep(wait_time);
 		}
 
-		const time_t delta_time = tasks[current_task].callback(false);
-		tasks[current_task].next_run += delta_time;
+		// Run the task
+		time_t before_time = micros();
+		const time_t delta_time = current_task->callback(false);
+		time_t after_time = micros();
+
+		// Update the next time to run
+		current_task->next_run += delta_time;
+
+		// Update the CPU usage
+		time_t cpu_time = 0;
+		if (after_time > before_time) {
+			// If micros rolls over, just don't count that usage.
+			cpu_time = after_time - before_time;
+		}
+		current_task->run_time.micros += cpu_time;
+		while (current_task->run_time.micros > 1000) {
+			++current_task->run_time.millis;
+			current_task->run_time.micros -= 1000;
+		}
 	}
+}
+
+Run_time_t SCHED_get_task_run_time(void) {
+	return current_task->run_time;
 }

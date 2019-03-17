@@ -7,6 +7,11 @@
 // It is used to represent milliseconds here.
 typedef unsigned long time_t;
 
+struct Run_time_t {
+	time_t millis = 0;
+	time_t micros = 0;
+};
+
 // Task functions are expected to return the number of milliseconds until
 // their next invocation. Note this time is measure from the time it is invoked,
 // not the time is returns. So a 500 ms return will always run at 2Hz even if it
@@ -20,5 +25,6 @@ typedef time_t (*Task_fn_t)(bool first);
 
 void SCHED_add_task(Task_fn_t function, const char* const task_name);
 void SCHED_run_sched(void);
+Run_time_t SCHED_get_task_run_time(void);
 
 #endif
