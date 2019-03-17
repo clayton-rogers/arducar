@@ -139,7 +139,7 @@ Font_char_t FONT_get_char(char c) {
 	Font_char_t ret;
 
 	for (int i = 0; i < CHAR_WIDTH; ++i) {
-		ret.character[i] = pgm_read_byte_near(font[c*CHAR_WIDTH + i]);
+		ret.character[i] = pgm_read_byte_near(&font[c*CHAR_WIDTH + i]);
 	}
 
 	return ret;
