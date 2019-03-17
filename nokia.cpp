@@ -6,7 +6,7 @@
  * Constants and types
  ****************************************************************************/
 const int SCREEN_WIDTH = 84;
-const int SCREEN_HEIGHT = 46;
+const int SCREEN_HEIGHT = 48;
 
 const int CHAR_PER_LINE = SCREEN_WIDTH / CHAR_WIDTH;
 const int NUMBER_LINES = SCREEN_HEIGHT / CHAR_HEIGHT;
