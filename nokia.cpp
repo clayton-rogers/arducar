@@ -108,7 +108,7 @@ void NOKIA_init(int pin_sce, int pin_dc, int pin_clk, int pin_data, int pin_rst)
 	send_command(COMMAND_FUNCTION_SET | BIT_EXTENDED_INSTRUCTION);
 
 	// Set Vop value
-	send_command(COMMAND_VOP | 56);
+	send_command(COMMAND_VOP | 59);
 
 	// Set temperature control
 	send_command(COMMAND_TEMPERATURE_CONTROL | 0);

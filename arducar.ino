@@ -34,6 +34,7 @@ time_t nokia_task(bool first) {
 	}
 
 	static char a = 0;
+	static int count = 0;
 
 	NOKIA_put_char(a);
 
@@ -43,7 +44,13 @@ time_t nokia_task(bool first) {
 		++a;
 	}
 
-	return 100;
+	++count;
+	if (count == CHAR_PER_SCREEN) {
+		count = 0;
+		return 60000;
+	} else {
+		return 25;
+	}
 }
 
 void setup() {
