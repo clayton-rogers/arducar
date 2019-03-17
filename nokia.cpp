@@ -10,7 +10,7 @@ const int SCREEN_HEIGHT = 48;
 
 const int CHAR_PER_LINE = SCREEN_WIDTH / CHAR_WIDTH;
 const int NUMBER_LINES = SCREEN_HEIGHT / CHAR_HEIGHT;
-const int CHAR_PER_SCREEN = SCREEN_WIDTH * SCREEN_HEIGHT;
+const int CHAR_PER_SCREEN = CHAR_PER_LINE * NUMBER_LINES;
 
 // Used only internally, this is the number of bytes needed to fill an entire screen
 const int BYTES_PER_SCREEN = SCREEN_WIDTH * NUMBER_LINES;
