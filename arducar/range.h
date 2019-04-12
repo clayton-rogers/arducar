@@ -5,7 +5,7 @@
 void RANGE_init(int pin_trig, int pin_echo);
 
 // Gets the current range to target in meters
-float RANGE_get();
+double RANGE_get();
 
 
 #endif
