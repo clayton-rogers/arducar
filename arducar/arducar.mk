@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=Clayton
-Date                   :=15/04/2019
+Date                   :=04/05/2019
 CodeLitePath           :="C:/Program Files/CodeLite"
 LinkerName             :=g++
 SharedObjectLinkerName :=g++ -shared -fPIC
@@ -62,7 +62,7 @@ AS       := as
 ## User defined environment variables
 ##
 CodeLiteDir:=C:\Program Files\CodeLite
-Objects0=$(IntermediateDirectory)/scheduler.cpp$(ObjectSuffix) $(IntermediateDirectory)/range.cpp$(ObjectSuffix) $(IntermediateDirectory)/font.cpp$(ObjectSuffix) $(IntermediateDirectory)/nokia.cpp$(ObjectSuffix) $(IntermediateDirectory)/pins.cpp$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/font.cpp$(ObjectSuffix) $(IntermediateDirectory)/nokia.cpp$(ObjectSuffix) $(IntermediateDirectory)/pins.cpp$(ObjectSuffix) $(IntermediateDirectory)/scheduler.cpp$(ObjectSuffix) $(IntermediateDirectory)/range.cpp$(ObjectSuffix) 
 
 
 
@@ -93,22 +93,6 @@ PreBuild:
 ##
 ## Objects
 ##
-$(IntermediateDirectory)/scheduler.cpp$(ObjectSuffix): scheduler.cpp $(IntermediateDirectory)/scheduler.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "D:/Workspace/arducar/arducar/scheduler.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/scheduler.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/scheduler.cpp$(DependSuffix): scheduler.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/scheduler.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/scheduler.cpp$(DependSuffix) -MM scheduler.cpp
-
-$(IntermediateDirectory)/scheduler.cpp$(PreprocessSuffix): scheduler.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/scheduler.cpp$(PreprocessSuffix) scheduler.cpp
-
-$(IntermediateDirectory)/range.cpp$(ObjectSuffix): range.cpp $(IntermediateDirectory)/range.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "D:/Workspace/arducar/arducar/range.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/range.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/range.cpp$(DependSuffix): range.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/range.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/range.cpp$(DependSuffix) -MM range.cpp
-
-$(IntermediateDirectory)/range.cpp$(PreprocessSuffix): range.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/range.cpp$(PreprocessSuffix) range.cpp
-
 $(IntermediateDirectory)/font.cpp$(ObjectSuffix): font.cpp $(IntermediateDirectory)/font.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "D:/Workspace/arducar/arducar/font.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/font.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/font.cpp$(DependSuffix): font.cpp
@@ -132,6 +116,22 @@ $(IntermediateDirectory)/pins.cpp$(DependSuffix): pins.cpp
 
 $(IntermediateDirectory)/pins.cpp$(PreprocessSuffix): pins.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/pins.cpp$(PreprocessSuffix) pins.cpp
+
+$(IntermediateDirectory)/scheduler.cpp$(ObjectSuffix): scheduler.cpp $(IntermediateDirectory)/scheduler.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "D:/Workspace/arducar/arducar/scheduler.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/scheduler.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/scheduler.cpp$(DependSuffix): scheduler.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/scheduler.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/scheduler.cpp$(DependSuffix) -MM scheduler.cpp
+
+$(IntermediateDirectory)/scheduler.cpp$(PreprocessSuffix): scheduler.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/scheduler.cpp$(PreprocessSuffix) scheduler.cpp
+
+$(IntermediateDirectory)/range.cpp$(ObjectSuffix): range.cpp $(IntermediateDirectory)/range.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "D:/Workspace/arducar/arducar/range.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/range.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/range.cpp$(DependSuffix): range.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/range.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/range.cpp$(DependSuffix) -MM range.cpp
+
+$(IntermediateDirectory)/range.cpp$(PreprocessSuffix): range.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/range.cpp$(PreprocessSuffix) range.cpp
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)
