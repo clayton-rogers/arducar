@@ -4,7 +4,7 @@
 #include "pins.h"
 #include "range.h"
 
-time_t flash_led_task(bool first) {
+time_ms_t flash_led_task(bool first) {
 	if (first) {
 		pinMode(PIN_LED, OUTPUT);
 	}
@@ -22,7 +22,7 @@ time_t flash_led_task(bool first) {
 	return 500;
 }
 
-time_t nokia_task(bool first) {
+time_ms_t nokia_task(bool first) {
 	if (first) {
 		NOKIA_init(PIN_N_SCE, PIN_N_DC, PIN_N_CLK, PIN_N_DATA, PIN_N_RST);
 		RANGE_init(3, 4); // TRIG, ECHO

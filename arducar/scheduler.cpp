@@ -17,7 +17,7 @@ static byte current_num_tasks = 0;
  ****************************************************************************/
 static Task_t* get_next_task() {
 	size_t next_task = NUM_T;
-	time_t next_time = 0x7FFFFFFF;
+	time_ms_t next_time = 0x7FFFFFFF;
 
 	for (int i = 0; i < current_num_tasks; ++i) {
 		if (tasks[i].next_run < next_time) {
@@ -33,7 +33,7 @@ static Task_t* get_next_task() {
 	return &tasks[next_task];
 }
 
-static void wait_or_sleep(time_t milliseconds) {
+static void wait_or_sleep(time_ms_t milliseconds) {
 	// TODO: this function should put the processor to sleep if there is a long enough wait
 	delay(milliseconds);
 }
@@ -63,25 +63,25 @@ void SCHED_run_sched() {
 	// Loop forever calling each task
 	while (1) {
 		current_task = get_next_task();
-		const time_t next_time = current_task->next_run;
+		const time_ms_t next_time = current_task->next_run;
 
-		const time_t current_time = millis();
+		const time_ms_t current_time = millis();
 
 		if (next_time > current_time) {
-			const time_t wait_time = next_time - current_time;
+			const time_ms_t wait_time = next_time - current_time;
 			wait_or_sleep(wait_time);
 		}
 
 		// Run the task
-		time_t before_time = micros();
-		const time_t delta_time = current_task->callback(false);
-		time_t after_time = micros();
+		time_ms_t before_time = micros();
+		const time_ms_t delta_time = current_task->callback(false);
+		time_ms_t after_time = micros();
 
 		// Update the next time to run
 		current_task->next_run += delta_time;
 
 		// Update the CPU usage
-		time_t cpu_time = 0;
+		time_ms_t cpu_time = 0;
 		if (after_time > before_time) {
 			// If micros rolls over, just don't count that usage.
 			cpu_time = after_time - before_time;
